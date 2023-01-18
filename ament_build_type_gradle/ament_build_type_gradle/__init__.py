@@ -86,6 +86,7 @@ class AmentGradleBuildType(BuildType):
             return gradlew_path
 
     def _get_gradle_executable(self, context):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         gradlew_path = self._get_gradle_wrapper(context)
         if gradlew_path:
             return gradlew_path
