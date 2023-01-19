@@ -131,6 +131,7 @@ class AmentGradleBuildType(BuildType):
         return cmd
 
     def extend_context(self, options):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         ce = super(AmentGradleBuildType, self).extend_context(options)
         ament_gradle_args = list(options.ament_gradle_args)
         if not any([arg.startswith('-Pament.android_variant=') for arg in ament_gradle_args]):
@@ -140,6 +141,7 @@ class AmentGradleBuildType(BuildType):
         return ce
 
     def on_build(self, context):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         environment_hooks_path = os.path.join('share', context.package_manifest.name, 'environment')
 
         ext = '.sh' if not IS_WINDOWS else '.bat'
@@ -205,9 +207,11 @@ class AmentGradleBuildType(BuildType):
                 context, gradle_task='assemble'), cwd=context.build_space)
 
     def on_test(self, context):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         yield BuildAction(self._prepare_cmd(context, gradle_task='test'), cwd=context.build_space)
 
     def on_install(self, context):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         # deploy package manifest
         deploy_file(
             context,
@@ -255,4 +259,5 @@ class AmentGradleBuildType(BuildType):
                 context, gradle_task='assemble'), cwd=context.build_space)
 
     def on_uninstall(self, context):
+        raise VerbExecutionError("Could not find 'gradle' executable")
         yield BuildAction(self._prepare_cmd(context, gradle_task='clean'), cwd=context.build_space)
